@@ -213,20 +213,25 @@ def set_user_quota(params):
 #     result = requests.put(url, auth=S3Auth('11111111', '11111111', '10.0.3.70:7480'), data=json.dumps(data))
 #     return result
 
+
 def enable_user_quota(params):
     url = init_url(params)
     result = requests.get(url, auth=get_auth())
     return result.content
+
 
 def enable_bucket_quota(params):
     url = init_url(params)
     result = requests.get(url, auth=get_auth())
     return result.content
 
+
 def get_bucket_quota(params):
     url = init_url(params)
     result = requests.get(url, auth=get_auth())
     return result.content
+
+
 def set_bucket_quota(params):
     url = init_url(params)
     data = {
@@ -237,12 +242,44 @@ def set_bucket_quota(params):
     result = requests.put(url,data=json.dumps(data), auth=get_auth())
     return result
 
+
 def admin_operate_api(params):
     url = init_url(params)
     result = requests.get(url, auth=get_auth())
     return result.content
 
+
+def get_bucket_info_s3(params):
+    url = init_url(params)
+    result = requests.head(url, auth=get_auth())
+    print result.headers
+    return result.text
+
+
+def get_usage_info(params):
+    url = init_url(params)
+    result = requests.get(url, auth=get_auth())
+    return result
+
+
+def trim_usage_info(params):
+    url = init_url(params)
+    result = requests.delete(url, auth=get_auth())
+    return result
+
+
 if "__main__" == __name__:
+    #trim usage
+    params = "usage?uid=s3user&"
+    trim_usage_info(params)
+#get usage
+    params = "usage?uid=s3user&"
+    ret = get_usage_info(params)
+    print ret
+    print ret.text
+    #get bucket info for using s3 api
+#     params = "/?"
+#     print get_bucket_info_s3(params)
     #create user
 #     params = "user?uid=wwwwww&display-name=wwwwww&email=456732434@qq.com&user-caps=users=read;usage=read,write&"
 #     create_user(params)
